@@ -3,18 +3,25 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
  		http://www.springframework.org/schema/beans
- 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+ 		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="loggers.xml"/>
 
     <bean id="client" class="training.spring.Client">
             <constructor-arg value="1"/>
             <constructor-arg value="John Smith"/>
+            <property name="greeting" value="Hi!"/>
     </bean>
-
-    <bean id="eventLogger" class="training.spring.logger.ConsoleEventLogger"/>
 
     <bean id="app" class="training.spring.App">
             <constructor-arg ref="client"/>
             <constructor-arg ref="eventLogger"/>
+            <constructor-arg>
+                <map>
+                    <entry key="INFO" value-ref="consoleEventLogger"/>
+                    <entry key="ERROR" value-ref="combinedEventLogger"/>
+                </map>
+            </constructor-arg>
     </bean>
 
     <bean id="event" class="training.spring.Event" scope="prototype">
@@ -24,16 +31,6 @@
         <constructor-arg>
             <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance" />
         </constructor-arg>
-    </bean>
-
-    <bean id="fileEventLogger" class="training.spring.logger.FileEventLogger" init-method="init">
-        <constructor-arg value = "logger.log" />
-    </bean>
-
-    <bean id="cacheFileEventLogger" class="training.spring.logger.CacheFileEventLogger"
-          init-method="init" destroy-method="destroy">
-        <constructor-arg value = "4"/>
-        <constructor-arg value="logger.log" />
     </bean>
 
 </beans>
