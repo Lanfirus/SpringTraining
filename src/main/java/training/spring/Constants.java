@@ -4,4 +4,5 @@ interface Constants {
 
     String SPRING_FILE = "spring.xml";
     String APP = "app";
+    String EVENT = "event";
 }

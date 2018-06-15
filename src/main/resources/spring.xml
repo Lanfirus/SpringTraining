@@ -10,11 +10,30 @@
             <constructor-arg value="John Smith"/>
     </bean>
 
-    <bean id="eventLogger" class="training.spring.ConsoleEventLogger"/>
+    <bean id="eventLogger" class="training.spring.logger.ConsoleEventLogger"/>
 
     <bean id="app" class="training.spring.App">
             <constructor-arg ref="client"/>
             <constructor-arg ref="eventLogger"/>
+    </bean>
+
+    <bean id="event" class="training.spring.Event" scope="prototype">
+        <constructor-arg>
+            <bean class="java.util.Date"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance" />
+        </constructor-arg>
+    </bean>
+
+    <bean id="fileEventLogger" class="training.spring.logger.FileEventLogger" init-method="init">
+        <constructor-arg value = "logger.log" />
+    </bean>
+
+    <bean id="cacheFileEventLogger" class="training.spring.logger.CacheFileEventLogger"
+          init-method="init" destroy-method="destroy">
+        <constructor-arg value = "4"/>
+        <constructor-arg value="logger.log" />
     </bean>
 
 </beans>
