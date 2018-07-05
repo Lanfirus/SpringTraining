@@ -1,17 +1,25 @@
 package training.spring.logger;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import training.spring.Event;
 
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+
+@Component
 public class FileEventLogger implements EventLogger{
 
     private String fileName;
     private File file;
 
-    public FileEventLogger(String fileName) {
+    @Autowired
+    public FileEventLogger(@Value("logger.log") String fileName) {
         this.fileName = fileName;
     }
 
@@ -22,6 +30,7 @@ public class FileEventLogger implements EventLogger{
         catch (IOException e){}
     }
 
+    @PostConstruct
     private void init() throws IOException{
         this.file = new File(fileName);
         if(!this.file.canWrite()){

@@ -1,5 +1,7 @@
 package training.spring;
 
+import org.springframework.stereotype.Component;
+
 public class Client {
 
     private String id;

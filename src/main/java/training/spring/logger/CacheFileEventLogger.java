@@ -5,12 +5,20 @@ import training.spring.Event;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PreDestroy;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class CacheFileEventLogger extends FileEventLogger{
 
     private int cacheSize;
     private List<Event> cache = new ArrayList<Event>();
 
-    public CacheFileEventLogger(String fileName, int cacheSize) {
+    @Autowired
+    public CacheFileEventLogger(String fileName, @Value("4") int cacheSize) {
         super(fileName);
         this.cacheSize = cacheSize;
     }
@@ -24,6 +32,7 @@ public class CacheFileEventLogger extends FileEventLogger{
         }
     }
 
+    @PreDestroy
     public void destroy(){
         if (!cache.isEmpty()){
             writeEventsFromCache();

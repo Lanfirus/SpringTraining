@@ -4,11 +4,17 @@ import training.spring.Event;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class CombinedEventLogger implements EventLogger{
 
     private List<EventLogger> loggers;
 
-    public CombinedEventLogger(List<EventLogger> loggers) {
+    @Autowired
+    public CombinedEventLogger(@Value("consoleEventLogger, fileEventLogger") List<EventLogger> loggers) {
         this.loggers = loggers;
     }
 
